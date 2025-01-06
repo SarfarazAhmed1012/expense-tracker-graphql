@@ -102,6 +102,8 @@ const userResolver = {
                     throw new Error("Internal server error")
                 }
             }
+
+            // TODO: Transaction/User relation
         },
     }
 }
