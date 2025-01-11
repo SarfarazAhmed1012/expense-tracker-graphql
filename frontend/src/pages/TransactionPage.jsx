@@ -27,7 +27,7 @@ const TransactionPage = () => {
 
   return (
     <div className="h-screen max-w-4xl mx-auto flex flex-col items-center">
-      <p className="md:text-4xl text-2xl lg:text-4xl font-bold text-center relative z-50 mb-4 mr-4 bg-gradient-to-r from-pink-600 via-indigo-500 to-pink-400 inline-block text-transparent bg-clip-text">
+      <p className="md:text-4xl text-2xl lg:text-4xl font-bold text-center relative z-50 mb-4 mr-4 bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-400 inline-block text-transparent bg-clip-text">
         Update this transaction
       </p>
       <form
@@ -181,7 +181,7 @@ const TransactionPage = () => {
         {/* SUBMIT BUTTON */}
         <button
           className="text-white font-bold w-full rounded px-4 py-2 bg-gradient-to-br
-          from-pink-500 to-pink-500 hover:from-pink-600 hover:to-pink-600"
+          from-blue-400 to-blue-500 hover:from-blue-600 hover:to-blue-700"
           type="submit"
         >
           Update Transaction
