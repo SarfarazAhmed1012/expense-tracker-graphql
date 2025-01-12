@@ -6,12 +6,14 @@ const userResolver = {
         signUp: async (_, { input }, context) => {
             try {
                 const { username, name, password, gender } = input
+                console.log(username, name, password, gender)
 
                 if (!username || !name || !password || !gender) {
                     throw new Error("Please fill all fields")
                 }
 
                 const userExists = await User.findOne({ username })
+                console.log(await User.find())
 
                 if (userExists) {
                     throw new Error("User already exists")
@@ -37,7 +39,7 @@ const userResolver = {
                 return newUser
             } catch (error) {
                 console.log(error)
-                throw new Error("Internal server error")
+                throw new Error(error)
             }
         },
         login: async (_, { input }, context) => {
@@ -54,58 +56,59 @@ const userResolver = {
                 return user;
             } catch (error) {
                 console.log(error)
-                throw new Error("Internal server error")
+                throw new Error(error)
             }
 
         },
         logout: async (_, __, context) => {
             try {
                 await context.logout();
-                req.session.destroy((err) => {
+                context.req.session.destroy((err) => {
                     if (err) {
                         throw new Error("Failed to logout")
                     }
                 })
-                res.clearCookie("connect.sid")
+                context.res.clearCookie("connect.sid")
 
                 return {
                     message: "Logged out successfully"
                 }
             } catch (error) {
                 console.log(error)
-                throw new Error("Internal server error")
+                throw new Error(error)
             }
         },
-        Query: {
-            users: () => {
-                return users
-            },
-            user: async (_, { userId }) => {
-                try {
-                    const user = await User.findById(userId)
-                    if (!user) {
-                        throw new Error("User not found")
-                    }
 
-                    return user
-                } catch (error) {
-                    console.log(error)
-                    throw new Error("Internal server error")
+    },
+    Query: {
+        // users: () => {
+        //     return users
+        // },
+        user: async (_, { userId }) => {
+            try {
+                const user = await User.findById(userId)
+                if (!user) {
+                    throw new Error("User not found")
                 }
-            },
-            authUser: async (_, __, context) => {
-                try {
-                    const user = await context.getUser()
-                    return user;
-                } catch (err) {
-                    console.log(err)
-                    throw new Error("Internal server error")
-                }
+
+                return user
+            } catch (error) {
+                console.log(error)
+                throw new Error(error)
             }
-
-            // TODO: Transaction/User relation
         },
-    }
+        authUser: async (_, __, context) => {
+            try {
+                const user = await context.getUser()
+                return user;
+            } catch (err) {
+                console.log(err)
+                throw new Error(err)
+            }
+        }
+
+        // TODO: Transaction/User relation
+    },
 }
 
 export default userResolver

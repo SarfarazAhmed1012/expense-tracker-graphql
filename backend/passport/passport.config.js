@@ -6,14 +6,13 @@ import { GraphQLLocalStrategy } from "graphql-passport";
 export const configurePassport = async () => {
     passport.serializeUser((user, done) => {
         console.log("Serializing user: ", user);
-        done(null, user._id)
-    })
+        done(null, user.id);
+    });
 
-    passport.deserializeUser(async (userId, done) => {
-        console.log("Deserializing user: ", userId);
-
+    passport.deserializeUser(async (id, done) => {
+        console.log("Deserializing user");
         try {
-            const user = await User.findById(userId);
+            const user = await User.findById(id);
             done(null, user)
         } catch (err) {
             done(err)
@@ -25,20 +24,18 @@ export const configurePassport = async () => {
             try {
                 const user = await User.findOne({ username });
                 if (!user) {
-                    return done(null, false, { message: "Invalid credentials" })
+                    throw new Error("Invalid username or password");
+                }
+                const validPassword = bcrypt.compare(password, user.password);
+
+                if (!validPassword) {
+                    throw new Error("Invalid username or password");
                 }
 
-                const isPasswordValid = await bcrypt.compare(password, user.password);
-                if (!isPasswordValid) {
-                    return done(null, false, { message: "Invalid credentials" })
-                }
-
-                return done(null, user)
-            }
-            catch (err) {
-                done(err)
+                return done(null, user);
+            } catch (err) {
+                return done(err);
             }
         })
-    )
-
-}
+    );
+};

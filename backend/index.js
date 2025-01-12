@@ -61,9 +61,9 @@ await server.start();
 // Set up our Express middleware to handle CORS, body parsing,
 // and our expressMiddleware function.
 app.use(
-    '/',
+    '/graphql',
     cors({
-        origin: 'http://localhost:3000',
+        origin: 'http://localhost:5173',
         credentials: true,
     }),
     express.json(),
@@ -80,4 +80,4 @@ await new Promise((resolve) =>
 );
 
 await connectDB()
-console.log(`🚀 Server ready at http://localhost:4000/`);
+console.log(`🚀 Server ready at http://localhost:4000/graphql`);
