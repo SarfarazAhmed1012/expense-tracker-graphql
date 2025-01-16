@@ -24,6 +24,21 @@ export const GET_TRANSCTION = gql`
             amount
             location
             date
+            user {
+                _id
+                username
+                name
+                profilePicture
+            }
+        }
+    }
+`
+
+export const GET_TRANSACTIONS_BY_CATEGORY = gql`
+    query GetTransactionsByCategory{
+        categoryStatistics {
+            category
+            totalAmount
         }
     }
 `

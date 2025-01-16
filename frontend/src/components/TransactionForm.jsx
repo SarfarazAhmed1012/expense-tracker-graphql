@@ -3,7 +3,7 @@ import { CREATE_TRANSACTION } from "../graphql/mutations/transaction.mutation";
 import toast from "react-hot-toast";
 const TransactionForm = () => {
   const [createTransaction, { loading }] = useMutation(CREATE_TRANSACTION, {
-    refetchQueries: ["GetTransactions"],
+    refetchQueries: ["GetTransactions", "GetTransactionsByCategory"],
   });
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +19,17 @@ const TransactionForm = () => {
         location: formData.get("location"),
         date: formData.get("date"),
       };
+
+      if (
+        !transactionData.description ||
+        !transactionData.paymentType ||
+        !transactionData.category ||
+        !transactionData.amount ||
+        !transactionData.date
+      ) {
+        toast.error("Please fill all fields");
+        return;
+      }
 
       const { data } = await createTransaction({
         variables: { input: transactionData },

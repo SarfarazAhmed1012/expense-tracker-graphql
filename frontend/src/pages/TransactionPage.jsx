@@ -13,7 +13,9 @@ const TransactionPage = () => {
     variables: { id },
   });
   const [updateTransaction, { loading: updateLoading, error: updateError }] =
-    useMutation(UPDATE_TRANSACTION);
+    useMutation(UPDATE_TRANSACTION, {
+      refetchQueries: ["GetTransactionsByCategory"],
+    });
 
   const [formData, setFormData] = useState({
     description: data?.transaction?.description || "",
@@ -25,7 +27,7 @@ const TransactionPage = () => {
   });
 
   useEffect(() => {
-    console.log("i am indide");
+    console.log("i am indide", data);
     if (data) {
       setFormData({
         description: data?.transaction?.description,
@@ -44,6 +46,18 @@ const TransactionPage = () => {
     e.preventDefault();
     const amount = parseFloat(formData.amount);
     console.log("formData", formData);
+    //input validation
+    if (
+      !formData.description ||
+      !formData.paymentType ||
+      !formData.category ||
+      !amount ||
+      !formData.date
+    ) {
+      toast.error("Please fill all fields");
+      return;
+    }
+
     try {
       const { data, loading, error } = await updateTransaction({
         variables: {

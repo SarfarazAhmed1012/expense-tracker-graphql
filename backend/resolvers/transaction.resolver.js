@@ -1,5 +1,5 @@
-import { transactions } from "../dummyData/data.js"
 import Transaction from "../models/transaction.model.js"
+import User from "../models/user.model.js"
 
 const transactionResolver = {
     Query: {
@@ -31,8 +31,22 @@ const transactionResolver = {
                 console.log(err)
                 throw new Error("Internal server error")
             }
+        },
+        categoryStatistics: async (_, __, context) => {
+            if (!context.getUser()) throw new Error("Unauthenticated")
+            const userId = context.getUser()._id
+            const transactions = await Transaction.find({ userId })
+
+            const categoryMap = {}
+            transactions.forEach((transaction) => {
+                if (!categoryMap[transaction.category]) {
+                    categoryMap[transaction.category] = 0
+                }
+                categoryMap[transaction.category] += transaction.amount
+            })
+
+            return Object.entries(categoryMap).map(([key, value]) => ({ category: key, totalAmount: value }))
         }
-        // TODO: Add category statistics query
     },
     Mutation: {
         createTransaction: async (_, { input }, context) => {
@@ -74,6 +88,18 @@ const transactionResolver = {
                 return transaction
             } catch (err) {
                 console.log(err)
+                throw new Error("Internal server error")
+            }
+        }
+    },
+    Transaction: {
+        user: async (parent) => {
+            const userId = parent.userId
+            try {
+                const user = await User.findById(userId)
+                return user
+            } catch (error) {
+                console.log(error)
                 throw new Error("Internal server error")
             }
         }
