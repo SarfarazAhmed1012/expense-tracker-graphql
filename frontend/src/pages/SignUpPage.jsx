@@ -22,10 +22,10 @@ const SignUpPage = () => {
     // console.log(signUpData);
     try {
       const { data } = await signUp({ variables: { input: signUpData } });
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       toast.error(error.message);
-      console.log(error);
+      // console.log(error);
     }
   };
 

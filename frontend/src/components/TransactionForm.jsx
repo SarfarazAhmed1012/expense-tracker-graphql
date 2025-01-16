@@ -34,11 +34,11 @@ const TransactionForm = () => {
       const { data } = await createTransaction({
         variables: { input: transactionData },
       });
-      console.log("transactionData", transactionData);
+      // console.log("transactionData", transactionData);
       form.reset();
       toast.success("Transaction created successfully");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.message);
     }
   };

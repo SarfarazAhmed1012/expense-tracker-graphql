@@ -27,7 +27,7 @@ const TransactionPage = () => {
   });
 
   useEffect(() => {
-    console.log("i am indide", data);
+    // console.log("i am indide", data);
     if (data) {
       setFormData({
         description: data?.transaction?.description,
@@ -45,7 +45,7 @@ const TransactionPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const amount = parseFloat(formData.amount);
-    console.log("formData", formData);
+    // console.log("formData", formData);
     //input validation
     if (
       !formData.description ||
@@ -70,7 +70,7 @@ const TransactionPage = () => {
       });
       toast.success("Transaction updated successfully");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.message);
     }
   };

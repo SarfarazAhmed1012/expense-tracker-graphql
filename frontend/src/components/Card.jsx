@@ -18,7 +18,7 @@ const categoryColorMap = {
 
 const Card = ({ transaction, authUser }) => {
   const cardClass = categoryColorMap[transaction.category];
-  console.log(transaction);
+  // console.log(transaction);
 
   // delete transaction
   const [deleteTransaction, { loading, error }] = useMutation(
@@ -35,7 +35,7 @@ const Card = ({ transaction, authUser }) => {
       });
       toast.success("Transaction deleted successfully");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.message);
     }
   };

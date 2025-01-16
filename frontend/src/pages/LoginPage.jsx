@@ -34,7 +34,7 @@ const LoginPage = () => {
       const respone = await login({ variables: { input: loginData } });
       toast.success("Login succesfull");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.message);
     }
   };

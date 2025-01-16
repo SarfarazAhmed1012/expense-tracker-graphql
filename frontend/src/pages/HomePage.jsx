@@ -101,15 +101,15 @@ const HomePage = () => {
     }
   }, [data]);
 
-  console.log(data, "datainside");
+  // console.log(data, "datainside");
 
   const handleLogout = async () => {
     try {
       const { data } = await logOut();
       client.resetStore();
-      console.log(data);
+      // console.log(data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 

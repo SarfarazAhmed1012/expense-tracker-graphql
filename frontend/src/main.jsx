@@ -12,7 +12,10 @@ import {
 import GridBackground from "./components/ui/GridBackground.jsx";
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
+  uri:
+    import.meta.env.VITE_NODE_ENV === "development"
+      ? "http://localhost:4000/graphql"
+      : "/graphql", // if we are in development mode, use the local server else use the production server
   cache: new InMemoryCache(),
   credentials: "include", // this tells the apollo client to send cookies along with requests
 });

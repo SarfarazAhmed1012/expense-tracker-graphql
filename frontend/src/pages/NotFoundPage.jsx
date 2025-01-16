@@ -1,5 +1,5 @@
 const NotFound = () => {
-  console.log("404");
+  // console.log("404");
   return (
     <section>
       <div className=" text-white">
